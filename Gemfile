@@ -1,5 +1,12 @@
 source 'https://rubygems.org'
 
+#bootstrap
+gem 'bootstrap-sass', '~> 3.3.1'
+#prefixes vendor
+gem 'autoprefixer-rails'
+#movie api
+gem 'tmdb-api'
+#Auth gem
 gem 'devise'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.8'
