@@ -12,6 +12,7 @@ class MoviesController < ApplicationController
   # GET /movies/1
   # GET /movies/1.json
   def show
+	@lien="//www.youtube.com/embed/"
 	@movie = Tmdb::Movie.detail(params[:id])
 	@images = Tmdb::Movie.images(params[:id])
 	@cast = Tmdb::Movie.casts(params[:id])

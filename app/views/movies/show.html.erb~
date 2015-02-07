@@ -5,6 +5,7 @@
 <%@lien="//www.youtube.com/embed/"
 @lien+=table.source.to_s%>
 <%end%>
+<iframe ></iframe>
 <iframe src=<%=@lien%> width="640" height="385" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
 <%= link_to 'Edit', edit_movie_path(@movie) %>|
 <%= link_to 'Back', movies_path %>

@@ -1,0 +1,23 @@
+<%= form_tag("/search", method: "get") do %>
+  <%= label_tag(:q, "Search for:") %>
+  <%= text_field_tag(:q) %>
+  <%= submit_tag("Search") %>
+<% end %>
+<ul>
+<% @movie.each do |table| %>
+<%@lien="/show/"
+@lien+=table.id.to_s%>
+<li>
+<%= if table.poster_path
+	link_to image_tag("#{@configuration.base_url}w154#{table.poster_path}"), @lien 
+    else
+	link_to image_tag("http://www.atmos.washington.edu/~carey/images/notFound.png", :width =>154, :Height=>212), @lien 
+	end%>
+<%=table.title%>
+
+
+
+
+</li>
+<%end%>
+</ul>
