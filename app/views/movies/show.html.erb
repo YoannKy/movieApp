@@ -15,5 +15,5 @@ Date :
 		<iframe src=<%=@lien%> width="640" height="385" frameborder="0" allowfullscreen="allowfullscreen"></iframe></br>
 	<%end%>
 <%end%>
-<%=link_to 'add to my fav list', {controller: 'movies', action:'addToFav', id:movie.id.to_i }%>
+<%=link_to 'add to my fav list', {controller: 'movies', action:'addToFav', id:@movie.id.to_i }%>
 <%= link_to 'Back', :back %>
