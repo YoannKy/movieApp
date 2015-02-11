@@ -5,6 +5,8 @@ Rails.application.routes.draw do
 get '/' =>'movies#index'
 get '/search' =>'movies#search'
 get '/show/:id' => 'movies#show'
+get '/addToFav/:id' => 'movies#addToFav'
+get '/favList/:id' =>'movies#getFavList'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

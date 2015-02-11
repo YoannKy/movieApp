@@ -6,8 +6,9 @@ class MoviesController < ApplicationController
   def index
     @movies = Movie.all
   end
+
  def search
-	@movie = Movie.search(params[:q])
+	@movies = Movie.search(params[:q])
   end
   # GET /movies/1
   # GET /movies/1.json
@@ -68,12 +69,31 @@ class MoviesController < ApplicationController
     end
   end
 
+  def addToFav
+    if current_user
+      @movie = Movie.where({id:params[:id]}).first_or_create  
+      current_user.movies << @movie
+      current_user.save 
+      redirect_to :back 
+    end
+  end
+
+  def getFavList
+    if current_user
+      @movies = []
+      current_user.movies.each do |movie|
+        @movies << Tmdb::Movie.detail(movie.id)
+      end
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_movie
       @movie = Movie.find(params[:id])
+      # @movie=Tmdb::Movie.detail(:id)
     end
-
+# 
     # Never trust parameters from the scary internet, only allow the white list through.
     def movie_params
       params[:movie]

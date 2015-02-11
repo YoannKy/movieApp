@@ -4,20 +4,17 @@
   <%= submit_tag("Search") %>
 <% end %>
 <ul>
-<% @movie.each do |table| %>
-<%@lien="/show/"
-@lien+=table.id.to_s%>
-<li>
-<%= if table.poster_path
-	link_to image_tag("#{@configuration.base_url}w154#{table.poster_path}"), @lien 
-    else
-	link_to image_tag("http://www.atmos.washington.edu/~carey/images/notFound.png", :width =>154, :Height=>212), @lien 
-	end%>
-<%=table.title%>
-
-
-
-
-</li>
-<%end%>
+	<% @movies.each do |movie| %>
+	<%@lien="/show/"
+	@lien+=movie.id.to_s%>
+	<li>
+		<%= if movie.poster_path
+			link_to image_tag("#{@configuration.base_url}w154#{movie.poster_path}"), @lien 
+		    else
+			link_to image_tag("http://www.atmos.washington.edu/~carey/images/notFound.png", :width =>154, :Height=>212), @lien 
+			end%>
+		<%=movie.title%>
+	<%=link_to 'add to my fav list', {controller: 'movies', action:'addToFav', id:movie.id.to_i }%>
+	</li>
+	<%end%>
 </ul>
