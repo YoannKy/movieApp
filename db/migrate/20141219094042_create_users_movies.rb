@@ -4,6 +4,7 @@ class CreateUsersMovies < ActiveRecord::Migration
     	t.integer :user_id
     	t.integer :movie_id
     	t.boolean :seen
+    	t.boolean :favorit
     	t.timestamps
     end
   end

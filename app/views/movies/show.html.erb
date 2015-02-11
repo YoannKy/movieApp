@@ -9,11 +9,20 @@ Date :
 </p>
 <h2>Trailers :</h2>
 <%if @trailers.youtube!=nil%>
-	<%@trailers.youtube.each do |table| %>
+	<%@trailers.youtube.each do |movie| %>
 		<%@lien="//www.youtube.com/embed/"%>
-		<%@lien+=table.source.to_s%>
+		<%@lien+=movie.source.to_s%>
 		<iframe src=<%=@lien%> width="640" height="385" frameborder="0" allowfullscreen="allowfullscreen"></iframe></br>
 	<%end%>
 <%end%>
-<%=link_to 'add to my fav list', {controller: 'movies', action:'addToFav', id:@movie.id.to_i }%>
+	<%= if not @favorit.include? @movie.id 
+		link_to 'add to my fav list', {controller: 'movies', action:'addToFav', id:@movie.id.to_i }
+	else 
+		'This movie is already in your favorit list'
+	end%>
+	<%= if not @seen.include? @movie.id 
+		link_to 'I\'ve already seen this movie !', {controller: 'movies', action:'addToSeen', id:@movie.id.to_i }
+	else 
+		'This movie is already in your favorit list'
+	end%>
 <%= link_to 'Back', :back %>

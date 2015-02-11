@@ -7,6 +7,10 @@ get '/search' =>'movies#search'
 get '/show/:id' => 'movies#show'
 get '/addToFav/:id' => 'movies#addToFav'
 get '/favList/:id' =>'movies#getFavList'
+get '/addToSeen/:id' =>'movies#addToSeen'
+get '/getSeenList/:id' =>'movies#getSeenList'
+get '/removeFromFav/:id' =>'movies#removeFromFav'
+get '/removeFromSeen/:id' =>'movies#removeFromSeen'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

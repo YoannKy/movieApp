@@ -1,3 +1,6 @@
+<%= if not @movies.any?   
+		'Nothing to see here'
+	end%>
 <% @movies.each do |movie| %>
 <%@lien="/show/"
 @lien+=movie.id.to_s%>
@@ -8,5 +11,12 @@
 	link_to image_tag("http://www.atmos.washington.edu/~carey/images/notFound.png", :width =>154, :Height=>212), @lien 
 	end%>
 <%=movie.title%>
+<%= if not @seen.include? movie.id 
+    link_to 'I\'ve already seen this movie !', {controller: 'movies', action:'addToSeen', id:movie.id.to_i }
+else 
+    'You have already seen this movie'
+end%>	
 </li>
+  <%=link_to 'removeFromFav', {controller: 'movies', action:'removeFromFav', id:movie.id.to_i }%>
 <%end%>
+<%= link_to 'Back', :back %>

@@ -1,65 +1,36 @@
-<div class="navbar navbar-default">
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="javascript:void(0)">Brand</a>
-    </div>
-    <div class="navbar-collapse collapse navbar-responsive-collapse">
-        <ul class="nav navbar-nav">
-            <li class="active"><a href="javascript:void(0)">Active</a></li>
-            <li><a href="javascript:void(0)">Link</a></li>
-            <li class="dropdown">
-                <a href="bootstrap-elements.html" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                    <li><a href="javascript:void(0)">Action</a></li>
-                    <li><a href="javascript:void(0)">Another action</a></li>
-                    <li><a href="javascript:void(0)">Something else here</a></li>
-                    <li class="divider"></li>
-                    <li class="dropdown-header">Dropdown header</li>
-                    <li><a href="javascript:void(0)">Separated link</a></li>
-                    <li><a href="javascript:void(0)">One more separated link</a></li>
-                </ul>
-            </li>
-        </ul>
-        <form class="navbar-form navbar-left">
-            <input class="form-control col-lg-8" placeholder="Search" type="text">
-        </form>
-        <ul class="nav navbar-nav navbar-right">
-            <li><a href="javascript:void(0)">Link</a></li>
-            <li class="dropdown">
-                <a href="bootstrap-elements.html" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                    <li><a href="javascript:void(0)">Action</a></li>
-                    <li><a href="javascript:void(0)">Another action</a></li>
-                    <li><a href="javascript:void(0)">Something else here</a></li>
-                    <li class="divider"></li>
-                    <li><a href="javascript:void(0)">Separated link</a></li>
-                </ul>
-            </li>
-        </ul>
-    </div>
-</div>
 <h1>Listing New movies</h1>
 <table>
-<% @topMovies.each do |table| %>
+<% @topMovies.each do |movie| %>
 <%@lien="/show/"
-@lien+=table.id.to_s%>
+@lien+=movie.id.to_s%>
 <tr><td>
-<%= if table.poster_path
-	link_to image_tag("#{@configuration.base_url}w154#{table.poster_path}"), @lien 
+    <%= if movie.poster_path
+	   link_to image_tag("#{@configuration.base_url}w154#{movie.poster_path}"), @lien 
     else
-	link_to image_tag("http://www.atmos.washington.edu/~carey/images/notFound.png", :width =>154, :Height=>212), @lien 
+	   link_to image_tag("http://www.atmos.washington.edu/~carey/images/notFound.png", :width =>154, :Height=>212), @lien 
 	end%>
 </td>
 <td>
-<%=table.title%>
+    <%=movie.title%>
 </td>
 <td>
 Note :
-<%=table.vote_average%>
+    <%=movie.vote_average%>
+</td>
+<td>
+    <%= if not @favorit.include? movie.id 
+        link_to 'add to my fav list', {controller: 'movies', action:'addToFav', id:movie.id.to_i }
+    else 
+        'This movie is already in your favorit list'
+    end%>
+    </li>
+</td>
+<td>
+     <%= if not @seen.include? movie.id 
+        link_to 'I\'ve already seen this movie !', {controller: 'movies', action:'addToSeen', id:movie.id.to_i }
+    else 
+        'You have already seen this movie'
+    end%>
 </td>
 </tr>
 <%end%>

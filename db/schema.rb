@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 20141219094042) do
     t.integer  "user_id"
     t.integer  "movie_id"
     t.boolean  "seen"
+    t.boolean  "favorit"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

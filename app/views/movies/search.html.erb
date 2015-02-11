@@ -1,9 +1,7 @@
-<%= form_tag("/search", method: "get") do %>
-  <%= label_tag(:q, "Search for:") %>
-  <%= text_field_tag(:q) %>
-  <%= submit_tag("Search") %>
-<% end %>
 <ul>
+	<%= if not @movies.any?   
+		'No movies found'
+	end%>
 	<% @movies.each do |movie| %>
 	<%@lien="/show/"
 	@lien+=movie.id.to_s%>
@@ -14,7 +12,16 @@
 			link_to image_tag("http://www.atmos.washington.edu/~carey/images/notFound.png", :width =>154, :Height=>212), @lien 
 			end%>
 		<%=movie.title%>
-	<%=link_to 'add to my fav list', {controller: 'movies', action:'addToFav', id:movie.id.to_i }%>
+	<%= if not @favorit.include? movie.id 
+		link_to 'add to my fav list', {controller: 'movies', action:'addToFav', id:movie.id.to_i }
+	else 
+		'This movie is already in your favorit list'
+	end%>
+	<%= if not @seen.include? movie.id 
+		link_to 'I\'ve already seen this movie !', {controller: 'movies', action:'addToSeen', id:movie.id.to_i }
+	else 
+		'You have already seen this movie'
+	end%>
 	</li>
 	<%end%>
 </ul>

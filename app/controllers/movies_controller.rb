@@ -15,11 +15,11 @@ class MoviesController < ApplicationController
   # GET /movies/1
   # GET /movies/1.json
   def show
-	@movie = Tmdb::Movie.detail(params[:id])
-	@images = Tmdb::Movie.images(params[:id])
-	@cast = Tmdb::Movie.casts(params[:id])
-	@trailers = Tmdb::Movie.trailers(params[:id])
-	@similar_movies = Tmdb::Movie.similar_movies(params[:id])
+  	@movie = Tmdb::Movie.detail(params[:id])
+  	@images = Tmdb::Movie.images(params[:id])
+  	@cast = Tmdb::Movie.casts(params[:id])
+  	@trailers = Tmdb::Movie.trailers(params[:id])
+  	@similar_movies = Tmdb::Movie.similar_movies(params[:id])
   end
 
   # GET /movies/new
@@ -75,18 +75,110 @@ class MoviesController < ApplicationController
 
   def addToFav
     if current_user
+      #Check if the movie is already in the database
       @movie = Movie.where({id:params[:id]}).first_or_create  
-      current_user.movies << @movie
-      current_user.save 
-      redirect_to :back 
+      if not current_user.movies.include? @movie
+        current_user.movies << @movie
+        @movies = UsersMovie.last
+      else
+        @movies = UsersMovie.where(:movie_id => @movie.id)
+        @movies.each do |movie|
+          if movie.favorit == false || movie.favorit == nil
+            movie.favorit = true
+            movie.save
+            respond_to do |format|
+              format.html { redirect_to :back, notice: 'The movie has been successfully added to your list.' }
+              format.json { head :no_content }    
+            end  
+          end
+        end
+      end
+    end
+  end
+
+  def removeFromFav
+    if current_user
+      #Check if the movie is already in the database
+      @movie = UsersMovie.where(:movie_id =>params[:id])
+      @movie.each do |movie|
+        if movie.favorit == true
+          movie.favorit = false
+          movie.save
+          if movie.favorit == false and movie.seen == false
+            movie.delete
+          end  
+        end  
+      end
+      respond_to do |format|
+        format.html { redirect_to :back, notice: 'The movie has been successfully removed from your list.' }
+        format.json { head :no_content }  
+      end
     end
   end
 
   def getFavList
     if current_user
       @movies = []
-      current_user.movies.each do |movie|
-        @movies << Tmdb::Movie.detail(movie.id)
+      favoritMovie=UsersMovie.where(:user_id => current_user)
+      favoritMovie.each do |movie|
+        if movie.favorit == true
+          @movies << Tmdb::Movie.detail(movie.movie_id)
+        end
+      end
+    end
+  end
+
+  def addToSeen
+    if current_user
+      #Check if the movie is already in the database
+      @movie = Movie.where({id:params[:id]}).first_or_create  
+      if not current_user.movies.include? @movie
+        current_user.movies << @movie
+        @movies = UsersMovie.last
+      else
+        @movies = UsersMovie.where(:movie_id => @movie.id)
+        @movies.each do |movie|
+          if movie.seen == false || movie.seen == nil
+            movie.seen = true
+            movie.save
+            respond_to do |format|
+              format.html { redirect_to :back, notice: 'The movie has been successfully added to your list.' }
+              format.json { head :no_content }    
+            end  
+          end
+        end
+      end
+    end
+  end
+
+  def removeFromSeen
+    if current_user
+      #Check if the movie is already in the database
+      @movie = UsersMovie.where(:movie_id =>params[:id])
+      @movie.each do |movie|
+        if movie.seen == true
+          movie.seen = false
+          movie.save
+          if movie.seen == false and movie.favorit == false
+            movie.delete
+          end  
+        end  
+      end
+      respond_to do |format|
+        format.html { redirect_to :back, notice: 'The movie has been successfully removed from your list.' }
+        format.json { head :no_content }  
+      end
+    end
+  end
+
+  def getSeenList
+    if current_user
+      @movies = []
+      seenList=UsersMovie.where(:user_id => current_user)
+      seenList.each do |movie|
+        if movie.seen == true
+          @movies << Tmdb::Movie.detail(movie.movie_id)
+        end
       end
     end
   end
