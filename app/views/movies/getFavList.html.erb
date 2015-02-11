@@ -5,18 +5,18 @@
 <%@lien="/show/"
 @lien+=movie.id.to_s%>
 <li>
-<%= if movie.poster_path
-	link_to image_tag("#{@configuration.base_url}w154#{movie.poster_path}"), @lien 
+<%= if movie.affiche
+	link_to image_tag(movie.affiche), @lien 
     else
 	link_to image_tag("http://www.atmos.washington.edu/~carey/images/notFound.png", :width =>154, :Height=>212), @lien 
 	end%>
-<%=movie.title%>
+<%=movie.nom%>
 <%= if not @seen.include? movie.id 
-    link_to 'I\'ve already seen this movie !', {controller: 'movies', action:'addToSeen', id:movie.id.to_i }
+    link_to 'I\'ve already seen this movie !', add_to_seen_path(movie.id.to_i), :method => 'get'
 else 
     'You have already seen this movie'
 end%>	
 </li>
-  <%=link_to 'removeFromFav', {controller: 'movies', action:'removeFromFav', id:movie.id.to_i }%>
+  <%=link_to 'I don\'t like this movie', delete_fav_list_path(movie.id.to_i), :method => 'get'%>
 <%end%>
 <%= link_to 'Back', :back %>

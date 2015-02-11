@@ -19,7 +19,7 @@ Note :
 </td>
 <td>
     <%= if not @favorit.include? movie.id 
-        link_to 'add to my fav list', {controller: 'movies', action:'addToFav', id:movie.id.to_i }
+        link_to 'I love this movie', add_to_fav_path(movie.id.to_i), :method => 'get'
     else 
         'This movie is already in your favorit list'
     end%>
@@ -27,7 +27,7 @@ Note :
 </td>
 <td>
      <%= if not @seen.include? movie.id 
-        link_to 'I\'ve already seen this movie !', {controller: 'movies', action:'addToSeen', id:movie.id.to_i }
+        link_to 'I\'ve already seen this movie !', add_to_seen_path(movie.id.to_i), :method => 'get'
     else 
         'You have already seen this movie'
     end%>

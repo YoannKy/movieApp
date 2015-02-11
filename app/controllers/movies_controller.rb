@@ -76,21 +76,25 @@ class MoviesController < ApplicationController
   def addToFav
     if current_user
       #Check if the movie is already in the database
-      @movie = Movie.where({id:params[:id]}).first_or_create  
+      remoteMovie=Tmdb::Movie.detail(params[:id]) 
+      @movie = Movie.where({
+        :id => remoteMovie.id, 
+        :nom => remoteMovie.title,
+        :affiche => @configuration.base_url+'w154'+remoteMovie.poster_path,
+        :description => remoteMovie.overview 
+        }).first_or_create  
       if not current_user.movies.include? @movie
         current_user.movies << @movie
-        @movies = UsersMovie.last
-      else
-        @movies = UsersMovie.where(:movie_id => @movie.id)
-        @movies.each do |movie|
-          if movie.favorit == false || movie.favorit == nil
-            movie.favorit = true
-            movie.save
-            respond_to do |format|
-              format.html { redirect_to :back, notice: 'The movie has been successfully added to your list.' }
-              format.json { head :no_content }    
-            end  
-          end
+      end
+      @movies = UsersMovie.where(:movie_id => @movie.id)
+      @movies.each do |movie|
+        if movie.favorit == false || movie.favorit == nil
+          movie.favorit = true
+          movie.save
+          respond_to do |format|
+            format.html { redirect_to :back, notice: 'The movie has been successfully added to your list.' }
+            format.json { head :no_content }    
+          end  
         end
       end
     end
@@ -122,7 +126,7 @@ class MoviesController < ApplicationController
       favoritMovie=UsersMovie.where(:user_id => current_user)
       favoritMovie.each do |movie|
         if movie.favorit == true
-          @movies << Tmdb::Movie.detail(movie.movie_id)
+           @movies << Movie.find(movie.movie_id)
         end
       end
     end
@@ -130,22 +134,25 @@ class MoviesController < ApplicationController
 
   def addToSeen
     if current_user
-      #Check if the movie is already in the database
-      @movie = Movie.where({id:params[:id]}).first_or_create  
+      remoteMovie=Tmdb::Movie.detail(params[:id]) 
+      @movie = Movie.where({
+        :id => remoteMovie.id, 
+        :nom => remoteMovie.title,
+        :affiche => @configuration.base_url+'w154'+remoteMovie.poster_path,
+        :description => remoteMovie.overview 
+        }).first_or_create   
       if not current_user.movies.include? @movie
         current_user.movies << @movie
-        @movies = UsersMovie.last
-      else
-        @movies = UsersMovie.where(:movie_id => @movie.id)
-        @movies.each do |movie|
-          if movie.seen == false || movie.seen == nil
-            movie.seen = true
-            movie.save
-            respond_to do |format|
-              format.html { redirect_to :back, notice: 'The movie has been successfully added to your list.' }
-              format.json { head :no_content }    
-            end  
-          end
+      end
+      @movies = UsersMovie.where(:movie_id => @movie.id)
+      @movies.each do |movie|
+        if movie.seen == false || movie.seen == nil
+          movie.seen = true
+          movie.save
+          respond_to do |format|
+            format.html { redirect_to :back, notice: 'The movie has been successfully added to your list.' }
+            format.json { head :no_content }    
+          end  
         end
       end
     end
@@ -177,7 +184,7 @@ class MoviesController < ApplicationController
       seenList=UsersMovie.where(:user_id => current_user)
       seenList.each do |movie|
         if movie.seen == true
-          @movies << Tmdb::Movie.detail(movie.movie_id)
+          @movies << Movie.find(movie.movie_id)
         end
       end
     end

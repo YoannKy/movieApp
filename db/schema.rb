@@ -14,6 +14,9 @@
 ActiveRecord::Schema.define(version: 20141219094042) do
 
   create_table "movies", force: true do |t|
+    t.string   "nom"
+    t.text     "description"
+    t.binary   "affiche"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
