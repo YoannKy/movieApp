@@ -1,8 +1,4 @@
-<%= form_tag("/search", method: "get") do %>
-  <%= label_tag(:q, "Search for:") %>
-  <%= text_field_tag(:q) %>
-  <%= submit_tag("Search") %>
-<% end %>
+<<<<<<< HEAD
 <table>
 <% @movie.each do |table| %>
 <%@lien="/show/"
@@ -21,3 +17,25 @@
 <%end%>
 </table>
 
+=======
+<%= form_tag("/search", method: "get") do %>
+  <%= label_tag(:q, "Search for:") %>
+  <%= text_field_tag(:q) %>
+  <%= submit_tag("Search") %>
+<% end %>
+<ul>
+	<% @movies.each do |movie| %>
+	<%@lien="/show/"
+	@lien+=movie.id.to_s%>
+	<li>
+		<%= if movie.poster_path
+			link_to image_tag("#{@configuration.base_url}w154#{movie.poster_path}"), @lien 
+		    else
+			link_to image_tag("http://www.atmos.washington.edu/~carey/images/notFound.png", :width =>154, :Height=>212), @lien 
+			end%>
+		<%=movie.title%>
+	<%=link_to 'add to my fav list', {controller: 'movies', action:'addToFav', id:movie.id.to_i }%>
+	</li>
+	<%end%>
+</ul>
+>>>>>>> b49df8fe6a2f9d08ffe21466df078c0e0dc88bb6

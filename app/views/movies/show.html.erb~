@@ -17,4 +17,9 @@ Date :
 <%end%>
 <!--<%=debug @movie%>-->
 <%= link_to 'Edit', edit_movie_path(@movie) %>|
+<<<<<<< HEAD
 <%= link_to 'Back', :back %>
+=======
+<%= link_to 'Back', movies_path %>
+<%=link_to 'add to my fav list', {controller: 'movies', action:'addToFav', id:movie.id.to_i }%>
+>>>>>>> b49df8fe6a2f9d08ffe21466df078c0e0dc88bb6

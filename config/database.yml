@@ -13,7 +13,7 @@ development:
   <<: *default
   database: movies
   username: root
-  password: Cobid0
+  password: root
   hostname: 127.0.0.1
 
 # Warning: The database defined as "test" will be erased and

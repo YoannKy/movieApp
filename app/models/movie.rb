@@ -1,5 +1,6 @@
 class Movie < ActiveRecord::Base
-	has_many :users, :through => :user_movies
+	has_many :users_movies
+	has_many :users, :through => :users_movies
 
 	def self.search(query)
  	@search = Tmdb::Search.new
