@@ -1,13 +1,15 @@
 class MoviesController < ApplicationController
-  before_action :set_movie, only: [:edit, :update, :destroy]
+  before_action :set_movie, only: [:update, :destroy]
 
   # GET /movies
   # GET /movies.json
   def index
     @movies = Movie.all
+    @topMovies =Tmdb::Movie.upcoming
   end
  def search
 	@movie = Movie.search(params[:q])
+	
   end
   # GET /movies/1
   # GET /movies/1.json
@@ -23,7 +25,9 @@ class MoviesController < ApplicationController
   def new
     @movie = Movie.new
   end
-
+  def add_Fav
+    
+  end
   # GET /movies/1/edit
   def edit
   end
