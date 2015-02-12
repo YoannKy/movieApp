@@ -1,29 +1,26 @@
-<h1>
-<%=@movie.title%>
-</h1>
-Date :
-<%=Date.parse(@movie.release_date).strftime("%d/%m/%Y")%></br>
+<h1><%=@movie.title%></h1>
+Date : <%=Date.parse(@movie.release_date).strftime("%d/%m/%Y")%></br>
 <p>
-<%=image_tag("#{@configuration.base_url}w154#{@movie.poster_path}")%></br>
-<%=@movie.overview%>
+	<%=image_tag("#{@configuration.base_url}w154#{@movie.poster_path}")%></br>
+	<%=@movie.overview%>
 </p>
 <h2>Trailers :</h2>
-<%if @trailers.youtube!=nil%>
-	<%@trailers.youtube.each do |movie| %>
-		<%@lien="//www.youtube.com/embed/"%>
-		<%@lien+=movie.source.to_s%>
-		<iframe src=<%=@lien%> width="640" height="385" frameborder="0" allowfullscreen="allowfullscreen"></iframe></br>
+	<%if @trailers.youtube!=nil%>
+		<%@trailers.youtube.each do |movie| %>
+			<%@lien="//www.youtube.com/embed/"%>
+			<%@lien+=movie.source.to_s%>
+			<iframe src=<%=@lien%> width="640" height="385" frameborder="0" allowfullscreen="allowfullscreen"></iframe></br>
+		<%end%>
 	<%end%>
-<%end%>
-	 <% if not @favorit.include? movie%> 
+	<% if not @favorit.include? movie.id%> 
         <%=form_tag :controller => 'movies', :action => 'add_to_fav' do%>
             <%=hidden_field_tag :movid, movie.id%>
             <%=submit_tag "Add"%>
-        <%end%> 
+    	<%end%> 
     <%else%>
         <%='This movie is already in your favorit list'%>
     <%end%>
-     <% if not @seen.include? movie.id%> 
+    <% if not @seen.include? movie.id%> 
         <%=form_tag :controller => 'movies', :action => 'add_to_seen' do%>
             <%=hidden_field_tag :movid, movie.id%>
             <%=submit_tag "Add"%>

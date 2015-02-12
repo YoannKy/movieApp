@@ -1,43 +1,53 @@
 <h1>Listing New movies</h1>
 <table>
-<% @topMovies.each do |movie| %>
-<%@lien="/show/"
-@lien+=movie.id.to_s%>
-<tr><td>
-    <%= if movie.poster_path
-	   link_to image_tag("#{@configuration.base_url}w154#{movie.poster_path}"), @lien 
-    else
-	   link_to image_tag("http://www.atmos.washington.edu/~carey/images/notFound.png", :width =>154, :Height=>212), @lien 
-	end%>
-</td>
-<td>
-    <%=movie.title%>
-</td>
-<td>
-Note :
-    <%=movie.vote_average%>
-</td>
-<td>
-    <% if not @favorit.include? movie%> 
-        <%=form_tag :controller => 'movies', :action => 'add_to_fav' do%>
-            <%=hidden_field_tag :movid, movie.id%>
-            <%=submit_tag "Add"%>
-        <%end%> 
-    <%else%>
-        <%='This movie is already in your favorit list'%>
+    <% @topMovies.each do |movie| %>
+        <%@lien="/show/"
+        @lien+=movie.id.to_s%>
+        <tr>
+            <td>
+            <%= if movie.poster_path
+        	   link_to image_tag("#{@configuration.base_url}w154#{movie.poster_path}"), @lien 
+            else
+        	   link_to image_tag("http://www.atmos.washington.edu/~carey/images/notFound.png", :width =>154, :Height=>212), @lien 
+        	end%>
+            </td>
+            <td>
+                <%=movie.title%>
+            </td>
+            <td>
+            Note :
+                <%=movie.vote_average%>
+            </td>
+            <td>
+                 <% if not @favorit.include? movie.id%> 
+                    <%=form_tag :controller => 'movies', :action => 'add_to_fav' do%>
+                        <%=hidden_field_tag :movid, movie.id%>
+                        <%=submit_tag "Add to fav"%>
+                    <%end%> 
+                <%else%>
+                    <%='This movie is already in your favorit list'%>
+                <%end%>
+            </td>
+            <td>
+                 <% if not @seen.include? movie.id%> 
+                    <%=form_tag :controller => 'movies', :action => 'add_to_seen' do%>
+                        <%=hidden_field_tag :movid, movie.id%>
+                        <%=submit_tag "Add to seen"%>
+                    <%end%>  
+                <%else%>  
+                    <%='You have already seen this movie'%>
+                <%end%>
+            </td>
+            <td>
+             <% if not @to_see.include? movie.id%> 
+                    <%=form_tag :controller => 'movies', :action => 'add_to_see' do%>
+                        <%=hidden_field_tag :movid, movie.id%>
+                        <%=submit_tag "Add to see"%>
+                    <%end%>  
+                <%else%>  
+                    <%='This movie is already in your to_see list'%>
+                <%end%>
+            </td>        
+        </tr>
     <%end%>
-    </li>
-</td>
-<td>
-     <% if not @seen.include? movie.id%> 
-        <%=form_tag :controller => 'movies', :action => 'add_to_seen' do%>
-            <%=hidden_field_tag :movid, movie.id%>
-            <%=submit_tag "Add"%>
-        <%end%>  
-    <%else%>  
-        <%='You have already seen this movie'%>
-    <%end%>
-</td>
-</tr>
-<%end%>
 </table>

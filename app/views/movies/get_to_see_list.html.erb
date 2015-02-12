@@ -18,32 +18,32 @@
             <td>
                 <%=movie.nom%>
             </td>
-            <td>
-                <% if not @favorit.include? movie.id%> 
+             <td>
+                 <% if not @favorit.include? movie.id%> 
                     <%=form_tag :controller => 'movies', :action => 'add_to_fav' do%>
                         <%=hidden_field_tag :movid, movie.id%>
-                        <%=submit_tag "Add to fav"%>
+                        <%=submit_tag "Add"%>
                     <%end%> 
                 <%else%>
                     <%='This movie is already in your favorit list'%>
                 <%end%>
             </td>
-            <td>        
-                 <% if not @to_see.include? movie.id%> 
-                    <%=form_tag :controller => 'movies', :action => 'add_to_see' do%>
+            <td>
+                 <% if not @seen.include? movie.id%> 
+                    <%=form_tag :controller => 'movies', :action => 'add_to_seen' do%>
                         <%=hidden_field_tag :movid, movie.id%>
-                        <%=submit_tag "Add to to_see"%>
+                        <%=submit_tag "Add"%>
                     <%end%>  
                 <%else%>  
-                    <%='This movie is already in your list'%>
+                    <%='You have already seen this movie'%>
                 <%end%>
             </td>
-            <td>    
-            <%=form_tag :controller => 'movies', :action => 'remove_from_seen' do%>
-                <%=hidden_field_tag :movid, movie.id%>
-                <%=submit_tag "remove from seen list"%>
-            <%end%>  
-            </td>
+            <td>
+                <%=form_tag :controller => 'movies', :action => 'remove_from_see' do%>
+                    <%=hidden_field_tag :movid, movie.id%>
+                    <%=submit_tag "remove from to_see list"%>
+                <%end%>
+            </td>        
         </tr>
     <%end%>
     </table>

@@ -13,7 +13,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
-//= require material
+//= require bootstrap
+//=require material
 //= require_tree .
 
 $(function(){
