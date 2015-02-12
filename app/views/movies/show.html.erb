@@ -4,7 +4,7 @@
 Date :
 <%=Date.parse(@movie.release_date).strftime("%d/%m/%Y")%></br>
 <p>
-<%=image_tag("#{@configuration.base_url}w154#{@movie.poster_path}")%></br>
+<%=image_tag("#{@configuration.base_url}w300#{@movie.poster_path}", size: "300x400")%></br>
 <%=@movie.overview%>
 </p>
 <h2>Trailers :</h2>
