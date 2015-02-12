@@ -3,14 +3,14 @@ Rails.application.routes.draw do
   resources :movies
 
 get '/' =>'movies#index'
-get '/search' =>'movies#search'
 get '/show/:id' => 'movies#show'
-match '/addToFav/:id' => 'movies#addToFav', :via => :get, :as => :add_to_fav
-match '/addToSeen/:id' => 'movies#addToSeen', :via => :get, :as => :add_to_seen
-match '/removeFromFav/:id' => 'movies#removeFromFav', :via => :get, :as => :delete_fav_list
-match '/removeFromSeen/:id' => 'movies#removeFromSeen', :via => :get, :as => :delete_seen_list
-match '/getFavList/:id' => 'movies#getFavList', :via => :get, :as => :get_fav_list
-match '/getSeenList/:id' => 'movies#getSeenList', :via => :get, :as => :get_seen_list
+match '/search' => 'movies#search', :via => :get, :as => :search
+post '/add_to_fav',:to  => 'movies#add_to_fav',as: 'add_to_fav'
+match '/add_to_seen' => 'movies#add_to_seen', :via => :post, :as => :add_to_seen
+post '/remove_from_fav',:to  => 'movies#remove_from_fav',as: 'remove_from_fav'
+post '/remove_from_seen',:to  => 'movies#remove_from_seen',as: 'remove_from_seen'
+match '/get_fav_list/:id' => 'movies#get_fav_list', :via => :get, :as => :get_fav_list
+match '/get_seen_list/:id' => 'movies#get_seen_list', :via => :get, :as => :get_seen_list
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

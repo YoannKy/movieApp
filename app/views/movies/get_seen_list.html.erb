@@ -1,0 +1,36 @@
+<%= if not @movies.any?   
+		'Nothing to see here'
+	end%>
+<table>
+<% @movies.each do |movie| %>
+<tr>
+<%@lien="/show/"
+@lien+=movie.id.to_s%>
+<li>
+<td>
+<%= if movie.affiche.to_s
+	link_to image_tag(movie.affiche.to_s), @lien 
+    else
+	link_to image_tag("http://www.atmos.washington.edu/~carey/images/notFound.png", :width =>154, :Height=>212), @lien 
+	end%>
+</td>
+<td>
+<%=movie.nom%>
+  <% if not @favorit.include? movie%> 
+        <%=form_tag :controller => 'movies', :action => 'add_to_fav' do%>
+            <%=hidden_field_tag :movid, movie.id%>
+            <%=submit_tag "Add to my fav list"%>
+        <%end%> 
+    <%else%>
+        <%='This movie is already in your favorit list'%>
+    <%end%>
+    <%=form_tag :controller => 'movies', :action => 'remove_from_fav' do%>
+        <%=hidden_field_tag :movid, movie.id%>
+        <%=submit_tag "remove"%>
+    <%end%> 
+</td>
+</li>
+</tr>
+<%end%>
+</table>
+<%= link_to 'Back', :back %>

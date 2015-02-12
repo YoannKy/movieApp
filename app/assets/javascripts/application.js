@@ -13,5 +13,9 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
+//= require material
 //= require_tree .
-//=require material.min
+
+$(function(){
+	$.material.init();
+});
