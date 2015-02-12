@@ -12,6 +12,7 @@ class ApplicationController < ActionController::Base
   	if current_user
   		@favorit=[]
   		@seen=[]
+      @to_see=[]
   		moviesCheck=UsersMovie.where(:user_id => current_user)
   		moviesCheck.each do |movie|
   			if movie.favorit == true
@@ -20,6 +21,9 @@ class ApplicationController < ActionController::Base
   			if movie.seen == true
   				@seen << movie.movie_id
   			end
+        if movie.to_see == true
+          @to_see << movie.movie_id
+        end
   		end
 	end
   end

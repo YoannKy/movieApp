@@ -1,3 +1,11 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 @import "material-wfont";
+
+form.navbar-form
+{
+	input
+	{
+		color:black;
+	}
+}

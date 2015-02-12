@@ -9,7 +9,7 @@ class MoviesController < ApplicationController
   end
 
  def search
-	@movies = Movie.search(params[:q])
+	@movies = Movie.search(params[:name_movie])
  end
 
   # GET /movies/1
@@ -25,9 +25,6 @@ class MoviesController < ApplicationController
   # GET /movies/new
   def new
     @movie = Movie.new
-  end
-  def add_Fav
-    
   end
   # GET /movies/1/edit
   def edit
@@ -82,11 +79,12 @@ class MoviesController < ApplicationController
         :nom => remoteMovie.title,
         :affiche => @configuration.base_url+'w154'+remoteMovie.poster_path,
         :description => remoteMovie.overview 
-        }).first_or_create  
+        }).first_or_create
+      # si le lien user et movie inclu le film?  
       if not current_user.movies.include? @movie
         current_user.movies << @movie
       end
-      @movies = UsersMovie.where(:movie_id => @movie.id)
+      @movies = UsersMovie.where({:movie_id => @movie.id, :user_id => current_user.id})
       @movies.each do |movie|
         if movie.favorit == false || movie.favorit == nil
           movie.favorit = true
@@ -103,12 +101,12 @@ class MoviesController < ApplicationController
   def removeFromFav
     if current_user
       #Check if the movie is already in the database
-      @movie = UsersMovie.where(:movie_id =>params[:id])
+      @movie = UsersMovie.where({:movie_id =>params[:id], :user_id => current_user})
       @movie.each do |movie|
         if movie.favorit == true
           movie.favorit = false
           movie.save
-          if movie.favorit == false and movie.seen == false
+          if movie.to_see == false and movie.favorit == false and movie.seen == false
             movie.delete
           end  
         end  
@@ -144,7 +142,7 @@ class MoviesController < ApplicationController
       if not current_user.movies.include? @movie
         current_user.movies << @movie
       end
-      @movies = UsersMovie.where(:movie_id => @movie.id)
+      @movies = UsersMovie.where({:movie_id => @movie.id, :user_id => current_user.id})
       @movies.each do |movie|
         if movie.seen == false || movie.seen == nil
           movie.seen = true
@@ -161,12 +159,12 @@ class MoviesController < ApplicationController
   def removeFromSeen
     if current_user
       #Check if the movie is already in the database
-      @movie = UsersMovie.where(:movie_id =>params[:id])
+      @movie = UsersMovie.where({:movie_id =>params[:id], :user_id => current_user.id})
       @movie.each do |movie|
         if movie.seen == true
           movie.seen = false
           movie.save
-          if movie.seen == false and movie.favorit == false
+          if movie.to_see == false and movie.favorit == false and movie.seen == false
             movie.delete
           end  
         end  
@@ -190,6 +188,63 @@ class MoviesController < ApplicationController
     end
   end
 
+def addTo_to_see
+    if current_user
+      remoteMovie=Tmdb::Movie.detail(params[:id]) 
+      @movie = Movie.where({
+        :id => remoteMovie.id, 
+        :nom => remoteMovie.title,
+        :affiche => @configuration.base_url+'w154'+remoteMovie.poster_path,
+        :description => remoteMovie.overview 
+        }).first_or_create   
+      if not current_user.movies.include? @movie
+        current_user.movies << @movie
+      end
+      @movies = UsersMovie.where({:movie_id => @movie.id, :user_id => current_user.id})
+      @movies.each do |movie|
+        if movie.to_see == false || movie.to_see == nil
+          movie.to_see = true
+          movie.save
+          respond_to do |format|
+            format.html { redirect_to :back, notice: 'The movie has been successfully added to your list.' }
+            format.json { head :no_content }    
+          end  
+        end
+      end
+    end
+  end
+
+  def removeFrom_to_see
+    if current_user
+      #Check if the movie is already in the database
+      @movie = UsersMovie.where({:movie_id =>params[:id], :user_id => current_user.id})
+      @movie.each do |movie|
+        if movie.to_see == true
+          movie.to_see = false
+          movie.save
+          if movie.to_see == false and movie.favorit == false and movie.seen == false
+            movie.delete
+          end  
+        end  
+      end
+      respond_to do |format|
+        format.html { redirect_to :back, notice: 'The movie has been successfully removed from your list.' }
+        format.json { head :no_content }  
+      end
+    end
+  end
+
+  def getToSeeList
+    if current_user
+      @movies = []
+      seenList=UsersMovie.where(:user_id => current_user)
+      seenList.each do |movie|
+        if movie.to_see == true
+          @movies << Movie.find(movie.movie_id)
+        end
+      end
+    end
+  end
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_movie

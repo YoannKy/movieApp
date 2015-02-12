@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(version: 20141219094042) do
   create_table "users_movies", force: true do |t|
     t.integer  "user_id"
     t.integer  "movie_id"
+    t.boolean  "to_see"
     t.boolean  "seen"
     t.boolean  "favorit"
     t.datetime "created_at"
