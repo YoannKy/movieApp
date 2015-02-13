@@ -22,60 +22,6 @@ class MoviesController < ApplicationController
   	@similar_movies = Tmdb::Movie.similar_movies(params[:id])
   end
 
-
-  def add_to_fav
-    if current_user
-      #Check if the movie is already in the database
-      remote_movie=Tmdb::Movie.detail(params[:movid])
-      if remote_movie.poster_path
-        @poster = @configuration.base_url+'w154'+remote_movie.poster_path
-      else
-        @poster = "Notfound"
-      end  
-      @movie = Movie.where({
-        :id => remote_movie.id, 
-        :nom => remote_movie.title,
-        :affiche => @poster,
-        :description => remote_movie.overview 
-        }).first_or_create
-      # si le lien user et movie inclu le film?  
-      if not current_user.movies.include? @movie
-        current_user.movies << @movie
-      end
-      @movies = UsersMovie.where({:movie_id => @movie.id, :user_id => current_user.id})
-      @movies.each do |movie|
-        if movie.favorit == false || movie.favorit == nil
-          movie.favorit = true
-          movie.save
-          respond_to do |format|
-            format.html { redirect_to @movie, notice: 'The movie has been successfully added to your list.' }
-            format.json { head :no_content }    
-          end  
-        end
-      end
-    end
-  end
-
-  def remove_from_fav
-    if current_user
-      #Check if the movie is already in the database
-      @movie = UsersMovie.where({:movie_id =>params[:movid],:user_id => current_user.id})
-      @movie.each do |movie|
-        if movie.favorit == true
-          movie.favorit = false
-          movie.save
-          if movie.to_see == false and movie.favorit == false and movie.seen == false
-            movie.delete
-          end  
-        end  
-      end
-      respond_to do |format|
-        format.html { redirect_to :back, notice: 'The movie has been successfully removed from your list.' }
-        format.json { head :no_content }  
-      end
-    end
-  end
-
   def add_to
     if current_user
       remote_movie = Tmdb::Movie.detail(params[:movid]) 
