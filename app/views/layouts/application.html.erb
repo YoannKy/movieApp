@@ -8,7 +8,8 @@
 </head>
 <body>
 <% if user_signed_in? %>
-<div class="navbar navbar-inverse ">  
+<div class="navbar navbar-inverse ">
+<div class="container-fluid">  
   <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
           <span class="icon-bar"></span>
@@ -43,11 +44,12 @@
             <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
           </li>
         </ul>
+        </div>
       </div>
     </div>
-    <div class="col-lg-2 label label-info">Logged in as <strong><%= current_user.email %></strong></div>
     <% else %>
     <div class="navbar navbar-inverse">
+    <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
                 <span class="icon-bar"></span>
@@ -61,9 +63,11 @@
                 <li><%= link_to "Sign up", new_user_registration_path, :class => 'navbar-link'  %></li>
                 <li><%= link_to "Login", new_user_session_path, :class => 'navbar-link'  %></li>
             </ul>
+            </div>
         </div>
     </div>
     <% end %>
+  <div class="container">
     <% if notice %>
       <p class="col-lg-offset-4 col-lg-4 alert alert-success text-center"><%= notice %></p>
     <% end %>
@@ -72,6 +76,7 @@
     <% end %>
     <div class="col-lg-12 text-center">
       <%= yield %>
+    </div>
     </div>
   </body>
 </html>

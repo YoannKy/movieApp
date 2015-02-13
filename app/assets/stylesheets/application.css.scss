@@ -6,10 +6,11 @@ form
 	display: inline;
 }
 td
-{	padding-bottom: 5px !important;
-	padding-right : 10px !important;
-	padding-left : 10px !important;
-	max-width:320px !important;
+{
+	padding-left:10px !important;
+	padding-right: 10px !important;
+	padding-bottom : 5px !important;
+	max-width:300px !important;
 }
 
 .centered-table
@@ -22,9 +23,9 @@ body
 	background-color: #e0e0e0;
 }
 
-td.name_movie
+.navbar
 {
-	max-width:50px !important;
+	min-width:500px !important;
 }
 a.btn-default
 {
