@@ -21,7 +21,7 @@ Date : <%=Date.parse(@movie.release_date).strftime("%d/%m/%Y")%></br>
     	<%end%>
 
     <%else%>
-        <%= button_tag(type: 'button', :class => 'btn btn-success') do %>
+        <%= button_tag(type: 'button', :class => 'btnbtn btn-form-disabled  btn-success') do %>
         <i class="glyphicon glyphicon-heart"></i>
         <% end %>
     <%end%>
@@ -33,7 +33,7 @@ Date : <%=Date.parse(@movie.release_date).strftime("%d/%m/%Y")%></br>
             <% end %>
         <%end%>  
     <%else%>  
-        <%= button_tag(type: 'button', :class => 'btn btn-success') do %>
+        <%= button_tag(type: 'button', :class => 'btn btn btn-form-disabled btn-success') do %>
         <i class="glyphicon glyphicon-eye-open"></i>
         <% end %>
     <%end%>
@@ -45,7 +45,7 @@ Date : <%=Date.parse(@movie.release_date).strftime("%d/%m/%Y")%></br>
             <% end %>
         <%end%>  
     <%else%>  
-        <%= button_tag(type: 'button', :class => 'btn btn-success') do %>
+        <%= button_tag(type: 'button', :class => 'btn btn btn-form-disabled btn-success') do %>
         <i class="glyphicon glyphicon-film"></i>
         <% end %>
     <%end%>

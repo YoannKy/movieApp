@@ -44,7 +44,7 @@
         </ul>
       </div>
     </div>
-    Logged in as <strong><%= current_user.email %></strong>
+    <div class="col-lg-12">Logged in as <strong><%= current_user.email %></strong></div>
     <% else %>
     <div class="navbar navbar-default">
         <div class="navbar-header">
@@ -64,11 +64,13 @@
     </div>
     <% end %>
     <% if notice %>
-      <p class="alert alert-success"><%= notice %></p>
+      <p class="col-lg-offset-4 col-lg-3 alert alert-success text-center"><%= notice %></p>
     <% end %>
     <% if alert %>
-      <p class="alert alert-danger"><%= alert %></p>
+      <p class="col-lg-offset-4 col-lg-3 alert alert-danger"><%= alert %></p>
     <% end %>
-    <%= yield %>
+    <div class="col-lg-12">
+      <%= yield %>
+    </div>
   </body>
 </html>
