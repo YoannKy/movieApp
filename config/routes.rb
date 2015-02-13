@@ -11,9 +11,9 @@ post '/add_to_see',:to  => 'movies#add_to_see',as: 'add_to_see'
 post '/remove_from_fav',:to  => 'movies#remove_from_fav',as: 'remove_from_fav'
 post '/remove_from_seen',:to  => 'movies#remove_from_seen',as: 'remove_from_seen'
 post '/remove_from_to_see', :to  => 'movies#remove_from_to_see',as: 'remove_from_to_see'
-match '/get_fav_list/:id' => 'movies#get_fav_list', :via => :get, :as => :get_fav_list
-match '/get_seen_list/:id' => 'movies#get_seen_list', :via => :get, :as => :get_seen_list
-match '/get_to_see_list/:id' => 'movies#get_to_see_list', :via => :get, :as => :get_to_see_list
+match '/get_to_fav/:id' => 'movies#get_to_fav', :via => :get, :as => :get_to_fav
+match '/get_to_seen/:id' => 'movies#get_to_seen', :via => :get, :as => :get_to_seen
+match '/get_to_see/:id' => 'movies#get_to_see', :via => :get, :as => :get_to_see
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
