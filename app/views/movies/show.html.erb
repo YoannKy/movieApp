@@ -20,56 +20,48 @@
     <%else%>
         <p>Trailers not Found</p>
 	<%end%>
-	    
-                 <% if not @favorit.include? movie.id%> 
-                    <%=form_tag :controller => 'movies', :action => 'add_to' do%>
-                        <%=hidden_field_tag :movid, movie.id%>
-                        <%=hidden_field_tag :action_type, 'favorite'%> 
-                        <%= button_tag(:type => 'submit', :class => 'btn btn-default') do %>
-                        <i class="glyphicon glyphicon-heart"></i>
-                        <% end %>
-                    <%end%> 
-                <%else%>
-                    <%= button_tag(type: 'button', :class => 'btn btn-success disabled') do %>
-                     <i class="glyphicon glyphicon-heart"></i>
-                    <% end %>
-                <%end%>
-            
-            
-                 <% if not @seen.include? movie.id%> 
-                    <%=form_tag :controller => 'movies', :action => 'add_to' do%>
-                        <%=hidden_field_tag :movid, movie.id%>
-                        <%=hidden_field_tag :action_type, 'seen'%> 
-                        <%= button_tag(:type => 'submit', :class => 'btn btn-default') do %>
-                        <i class="glyphicon glyphicon-eye-close"></i>
-                        <% end %>
-                    <%end%>  
-                <%else%>  
-                    <%= button_tag(type: 'button', :class => 'btn btn-success disabled') do %>
-                    <i class="glyphicon glyphicon-eye-open"></i>
-                    <% end %>
-                <%end%>
-            
-            
-             <% if not @to_see.include? movie.id%> 
-                    <%=form_tag :controller => 'movies', :action => 'add_to' do%>
-                        <%=hidden_field_tag :movid, movie.id%>
-                        <%=hidden_field_tag :action_type, 'see'%> 
-                        <%= button_tag(:type => 'submit', :class => 'btn btn-default') do %>
-                        <i class="glyphicon glyphicon-film"></i>
-                        <% end %>
-                    <%end%>  
-                <%else%>  
-                    <%= button_tag(type: 'button', :class => 'btn btn-success disabled') do %>
-                    <i class="glyphicon glyphicon-film"></i>
-                    <% end %>
-                <%end%>
-              
+    <% if not @favorit.include? @movie.id%> 
+        <%=form_tag :controller => 'movies', :action => 'add_to' do%>
+            <%=hidden_field_tag :movid, @movie.id%>
+            <%=hidden_field_tag :action_type, 'favorite'%> 
+            <%= button_tag(:type => 'submit', :class => 'btn btn-default') do %>
+                <i class="glyphicon glyphicon-heart"></i>
+            <% end %>
+        <%end%> 
+    <%else%>
+        <%= button_tag(type: 'button', :class => 'btn btn-success disabled') do %>
+             <i class="glyphicon glyphicon-heart"></i>
+        <%end%>
+    <%end%>
+    <% if not @seen.include? @movie.id%> 
+        <%=form_tag :controller => 'movies', :action => 'add_to' do%>
+            <%=hidden_field_tag :movid, @movie.id%>
+            <%=hidden_field_tag :action_type, 'seen'%> 
+            <%= button_tag(:type => 'submit', :class => 'btn btn-default') do %>
+                <i class="glyphicon glyphicon-eye-close"></i>
+            <% end %>
+        <%end%>  
+    <%else%>  
+        <%= button_tag(type: 'button', :class => 'btn btn-success disabled') do %>
+            <i class="glyphicon glyphicon-eye-open"></i>
+        <% end %>
+    <%end%>
+    <% if not @to_see.include? @movie.id%> 
+        <%=form_tag :controller => 'movies', :action => 'add_to' do%>
+            <%=hidden_field_tag :movid, @movie.id%>
+            <%=hidden_field_tag :action_type, 'see'%> 
+            <%= button_tag(:type => 'submit', :class => 'btn btn-default') do %>
+                <i class="glyphicon glyphicon-film"></i>
+            <% end %>
+        <%end%>  
     <%else%>  
         <%= button_tag(type: 'button', :class => 'btn btn-success disabled') do %>
             <i class="glyphicon glyphicon-film"></i>
         <% end %>
-    <%end%>
+    <%end%>   
+    <%= button_tag(type: 'button', :class => 'btn btn-success disabled') do %>
+        <i class="glyphicon glyphicon-film"></i>
+    <% end %>
 </br>    
 <%=link_to :back, class:"btn btn-default" do %>
     <i class="glyphicon glyphicon-arrow-left"></i>
