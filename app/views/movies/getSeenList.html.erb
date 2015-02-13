@@ -1,0 +1,42 @@
+<%if @movies == nil %>
+    <%='No movies found'%>  
+<%elsif not @movies.any? %>  
+    <%='No movies found'%>
+<%else%>
+    <table>
+    <% @movies.each do |movie| %>
+        <tr>
+        <%@lien="/show/"
+        @lien+=movie.id.to_s%>
+            <td>
+            <%= if movie.affiche.to_s
+            	link_to image_tag(movie.affiche.to_s), @lien 
+                else
+            	link_to image_tag("http://www.atmos.washington.edu/~carey/images/notFound.png", :width =>154, :Height=>212), @lien 
+            	end%>
+            </td>
+            <td>
+                <%=movie.nom%>
+            </td>
+            <td>
+                 <%= if not @favorit.include? movie.id 
+                        link_to 'I love this movie!', add_to_fav_path(movie.id.to_i), :method => 'get'
+                    else 
+                        'This movie is already in your favorit list'
+                    end%>
+            </td>
+            <td>        
+                <%= if not @to_see.include? movie.id 
+                         link_to 'I want to see this movie !', add_to_see_path(movie.id.to_i), :method => 'get'
+                     else 
+                        'This movie is already in your to See list'
+                end%>
+            </td>
+            <td> 	
+                <%=link_to "I'm dumb, I haven't watch this movie yet", delete_seen_list_path(movie.id.to_i), :method => 'get'%>
+            </td>
+        </tr>
+    <%end%>
+    </table>
+<%end%>
+<%= link_to 'Back', :back %>
