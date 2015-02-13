@@ -52,13 +52,13 @@
                 <%=form_tag :controller => 'movies', :action => 'remove_from_to_see' do%>
                     <%=hidden_field_tag :movid, movie.id%>
                     <%= button_tag(:type => 'submit', :class => 'btn btn-danger') do %>
-                        <i class="glyphicon glyphicon-align-justify"></i>
+                        <i class="glyphicon glyphicon-film"></i>
                     <% end %>
                 <%end%>
             </td> 
             <td>
                 <%= button_tag(type: 'button', :class => 'btn btn-info', :data => {:toggle =>"modal",:target =>'#'+movie.id.to_s}) do %>
-                    <i class="glyphicon glyphicon-film"></i>
+                    <i class="glyphicon glyphicon-align-justify"></i>
                 <% end %>
                 <div class="modal" id=<%=movie.id%> tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" >
                         <div class="modal-dialog">
