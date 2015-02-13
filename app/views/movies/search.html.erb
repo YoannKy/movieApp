@@ -20,7 +20,6 @@
 					<%=movie.title%>
 				</td>
 				<td>
-					<span class="mdi-action-favorite btn btn-success"></span>
 					<% if not @favorit.include? movie.id%> 
 				        <%=form_tag :controller => 'movies', :action => 'add_to_fav' do%>
 				            <%=hidden_field_tag :movid, movie.id%>
@@ -29,7 +28,7 @@
 	                        <% end %>
 				        <%end%> 
 			    	<%else%>
-	                    <%= button_tag(type: 'button', :class => 'btn btn-success') do %>
+	                    <%= button_tag(type: 'button', :class => 'btn btn-success disabled') do %>
 	                        <i class="glyphicon glyphicon-heart"></i>
 	                    <% end %>
 			    	<%end%>
@@ -43,7 +42,7 @@
 	                        <% end %>
 		        		<%end%>  
 				    <%else%>  
-	                    <%= button_tag(type: 'button', :class => 'btn btn-success') do %>
+	                    <%= button_tag(type: 'button', :class => 'btn btn-success disabled') do %>
 	                        <i class="glyphicon glyphicon-eye-open"></i>
 	                    <% end %>
 				    <%end%>
@@ -57,7 +56,7 @@
 	                        <% end %>
 		        		<%end%>
 			            <%else%> 
-		                    <%= button_tag(type: 'button', :class => 'btn btn-success') do %>
+		                    <%= button_tag(type: 'button', :class => 'btn btn-success disabled') do %>
 		                        <i class="glyphicon glyphicon-film"></i>
 		                    <% end %>
 			        <%end%>

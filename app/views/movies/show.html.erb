@@ -1,16 +1,24 @@
 <h1><%=@movie.title%></h1>
-Date : <%=Date.parse(@movie.release_date).strftime("%d/%m/%Y")%></br>
+<p>Date : <%=Date.parse(@movie.release_date).strftime("%d/%m/%Y")%></p></br>
 <p>
-	<%=image_tag("#{@configuration.base_url}w300#{@movie.poster_path}", size: "300x400")%></br>
+    <%if @movie.poster_path%>
+	   <%=image_tag("#{@configuration.base_url}w300#{@movie.poster_path}", size: "300x400")%></br>
+    <%else%>
+        <%=link_to image_tag("http://www.atmos.washington.edu/~carey/images/notFound.png", size: "300x400"), @lien%></br>
+    <%end%>   
 	<%=@movie.overview%>
 </p>
 <h2>Trailers :</h2>
-	<%if @trailers.youtube!=nil%>
+	<%if @trailers.youtube.any? %>
 		<%@trailers.youtube.each do |movie| %>
 			<%@lien="//www.youtube.com/embed/"%>
 			<%@lien+=movie.source.to_s%>
-			<iframe src=<%=@lien%> width="640" height="385" frameborder="0" allowfullscreen="allowfullscreen"></iframe></br>
+            <div class="embed-responsive-item-16by9" >
+    			<iframe src=<%=@lien%> width="640" height="385"frameborder="0" allowfullscreen="allowfullscreen"></iframe></br>
+            </div>
 		<%end%>
+    <%else%>
+        <p>Trailers not Found</p>
 	<%end%>
 	<% if not @favorit.include? @movie.id%> 
         <%=form_tag :controller => 'movies', :action => 'add_to_fav' do%>
@@ -21,7 +29,7 @@ Date : <%=Date.parse(@movie.release_date).strftime("%d/%m/%Y")%></br>
     	<%end%>
 
     <%else%>
-        <%= button_tag(type: 'button', :class => 'btn btn-success') do %>
+        <%= button_tag(type: 'button', :class => 'btn btn-success disabled') do %>
         <i class="glyphicon glyphicon-heart"></i>
         <% end %>
     <%end%>
@@ -33,7 +41,7 @@ Date : <%=Date.parse(@movie.release_date).strftime("%d/%m/%Y")%></br>
             <% end %>
         <%end%>  
     <%else%>  
-        <%= button_tag(type: 'button', :class => 'btn btn-success') do %>
+        <%= button_tag(type: 'button', :class => 'btn btn-success disabled') do %>
         <i class="glyphicon glyphicon-eye-open"></i>
         <% end %>
     <%end%>
@@ -45,7 +53,7 @@ Date : <%=Date.parse(@movie.release_date).strftime("%d/%m/%Y")%></br>
             <% end %>
         <%end%>  
     <%else%>  
-        <%= button_tag(type: 'button', :class => 'btn btn-success') do %>
+        <%= button_tag(type: 'button', :class => 'btn btn-success disabled') do %>
         <i class="glyphicon glyphicon-film"></i>
         <% end %>
     <%end%>
