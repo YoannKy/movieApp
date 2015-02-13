@@ -3,13 +3,11 @@
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= stylesheet_link_tag    'public',  media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-    <link href="css-sprite/sprite-av-black.css" rel="stylesheet">
   <%= csrf_meta_tags %>
 </head>
 <body>
 <% if user_signed_in? %>
-<div class="navbar navbar-default">  
+<div class="navbar navbar-inverse ">  
   <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
           <span class="icon-bar"></span>
@@ -21,13 +19,13 @@
       <div class="navbar-collapse collapse navbar-responsive-collapse">
         <ul class="nav navbar-nav">
           <li class="active">
-            <%=link_to "My Lovely movies", get_fav_list_path(current_user.id), method: :get%>
+            <%=link_to "My Lovely movies", get_to_fav_path(current_user.id), method: :get%>
           </li>
           <li class="active">
-            <%=link_to "My Seen movies", get_seen_list_path(current_user.id), method: :get%>
+            <%=link_to "My Seen movies", get_to_seen_path(current_user.id), method: :get%>
           </li>
           <li class="active">
-            <%=link_to "My to See movies", get_to_see_list_path(current_user.id), method: :get%>
+            <%=link_to "My to See movies", get_to_see_path(current_user.id), method: :get%>
           </li>
         </ul>
               <%= form_tag("/search", method: "get", :class => "navbar-form navbar-left") do %>
@@ -44,9 +42,9 @@
         </ul>
       </div>
     </div>
-    <div class="col-lg-12">Logged in as <strong><%= current_user.email %></strong></div>
+    <div class="col-lg-2 label label-info">Logged in as <strong><%= current_user.email %></strong></div>
     <% else %>
-    <div class="navbar navbar-default">
+    <div class="navbar navbar-inverse">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
                 <span class="icon-bar"></span>
@@ -64,10 +62,10 @@
     </div>
     <% end %>
     <% if notice %>
-      <p class="col-lg-offset-4 col-lg-3 alert alert-success text-center"><%= notice %></p>
+      <p class="col-lg-offset-4 col-lg-4 alert alert-success text-center"><%= notice %></p>
     <% end %>
     <% if alert %>
-      <p class="col-lg-offset-4 col-lg-3 alert alert-danger"><%= alert %></p>
+      <p class="col-lg-offset-4 col-lg-4 alert alert-danger text-center "><%= alert %></p>
     <% end %>
     <div class="col-lg-12 text-center">
       <%= yield %>

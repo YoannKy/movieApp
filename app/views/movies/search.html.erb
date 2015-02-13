@@ -1,9 +1,9 @@
-<h1>Result</h1>
-<table>
+<h1><span class="label label-info">Result</span></h1>
+<table class="centered-table">
 	<%if @movies == nil %>
-		<%='No movies found'%>	
+		<h2><span class="label label-warning"><%='No movies found'%></span></h2>
 	<%elsif not @movies.any? %>  
-		<%='No movies found'%>
+		<h2><span class="label label-warning"><%='No movies found'%></span></table></h2>
 	<%else%>
 		<%@movies.each do |movie|%>
 			<%@lien="/show/"

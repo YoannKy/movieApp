@@ -1,9 +1,10 @@
 <%if @movies == nil %>
-    <%='No movies found'%>  
+    <h2><span class="label label-warning"><%='No movies found'%></span></table></h2>  
 <%elsif not @movies.any? %>  
-    <%='No movies found'%>
+    <h2><span class="label label-warning"><%='No movies found'%></span></table></h2>
+    
 <%else%>
-    <table>
+    <table class="centered-table">
     <% @movies.each do |movie| %>
         <tr>
         <%@lien="/show/"
@@ -19,21 +20,21 @@
                 <%=movie.nom%>
             </td>
             <td>
-                <% if not @seen.include? movie.id%> 
-                    <%=form_tag :controller => 'movies', :action => 'add_to_seen' do%>
+                <% if not @favorit.include? movie.id%> 
+                    <%=form_tag :controller => 'movies', :action => 'add_to_fav' do%>
                         <%=hidden_field_tag :movid, movie.id%>
-                        <%= button_tag(:type => 'submit', :class => 'btn btn-default') do %>
-                            <i class="glyphicon glyphicon-eye-close"></i>
+                        <%= button_tag(:type => 'submit', :class => 'btn btn-success') do %>
+                            <i class="glyphicon glyphicon-heart"></i>
                         <% end %>
-                    <%end%>  
-                <%else%>  
+                    <%end%> 
+                <%else%>
                     <%= button_tag(type: 'button', :class => 'btn disabled btn-success') do %>
-                        <i class="glyphicon glyphicon-eye-open"></i>
+                        <i class="glyphicon glyphicon-heart"></i>
                     <% end %>
                 <%end%>
             </td>
-            <td>
-                <% if not @to_see.include? movie.id%> 
+            <td>        
+                 <% if not @to_see.include? movie.id%> 
                     <%=form_tag :controller => 'movies', :action => 'add_to_see' do%>
                         <%=hidden_field_tag :movid, movie.id%>
                         <%= button_tag(:type => 'submit', :class => 'btn btn-default') do %>
@@ -46,11 +47,11 @@
                     <% end %>
                 <%end%>
             </td>
-            <td>
-                <%=form_tag :controller => 'movies', :action => 'remove_from_fav' do%>
+            <td>    
+                <%=form_tag :controller => 'movies', :action => 'remove_from_seen' do%>
                     <%=hidden_field_tag :movid, movie.id%>
                     <%= button_tag(:type => 'submit', :class => 'btn btn-danger') do %>
-                        <i class="glyphicon glyphicon-heart"></i>
+                        <i class="glyphicon glyphicon-eye-close"></i>
                     <% end %>
                 <%end%>  
             </td>

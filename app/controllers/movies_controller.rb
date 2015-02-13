@@ -124,7 +124,7 @@ class MoviesController < ApplicationController
     end
   end
 
-  def get_fav_list
+  def get_to_fav
     if current_user
       @movies = []
       favorit_movie=UsersMovie.where(:user_id => current_user)
@@ -187,7 +187,7 @@ class MoviesController < ApplicationController
     end
   end
 
-  def get_seen_list
+  def get_to_seen
     if current_user
       @movies = []
       seen_movies=UsersMovie.where(:user_id => current_user)
@@ -250,10 +250,10 @@ def add_to_see
     end
   end
 
-  def get_to_see_list
+  def get_to_see
     if current_user
       @movies = []
-      seen_movies=UsersMovie.where(:user_id => current_user)
+      see_movies=UsersMovie.where(:user_id => current_user)
       see_movies.each do |movie|
         if movie.to_see == true
           @movies << Movie.find(movie.movie_id)
