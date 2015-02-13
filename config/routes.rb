@@ -5,9 +5,7 @@ Rails.application.routes.draw do
 get '/' =>'movies#index'
 get '/show/:id' => 'movies#show'
 match '/search' => 'movies#search', :via => :get, :as => :search
-post '/add_to_fav',:to  => 'movies#add_to_fav',as: 'add_to_fav'
-post '/add_to_seen',:to  => 'movies#add_to_seen',as: 'add_to_seen'
-post '/add_to_see',:to  => 'movies#add_to_see',as: 'add_to_see'
+post '/add_to',:to  => 'movies#add_to',as: 'add_to'
 post '/remove_from_fav',:to  => 'movies#remove_from_fav',as: 'remove_from_fav'
 post '/remove_from_seen',:to  => 'movies#remove_from_seen',as: 'remove_from_seen'
 post '/remove_from_to_see', :to  => 'movies#remove_from_to_see',as: 'remove_from_to_see'

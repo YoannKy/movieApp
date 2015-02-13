@@ -22,63 +22,15 @@ class MoviesController < ApplicationController
   	@similar_movies = Tmdb::Movie.similar_movies(params[:id])
   end
 
-  # GET /movies/new
-  def new
-    @movie = Movie.new
-  end
-  # GET /movies/1/edit
-  def edit
-  end
-
-  # POST /movies
-  # POST /movies.json
-  def create
-    @movie = Movie.new(movie_params)
-
-    respond_to do |format|
-      if @movie.save
-        format.html { redirect_to @movie, notice: 'Movie was successfully created.' }
-        format.json { render :show, status: :created, location: @movie }
-      else
-        format.html { render :new }
-        format.json { render json: @movie.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # PATCH/PUT /movies/1
-  # PATCH/PUT /movies/1.json
-  def update
-    respond_to do |format|
-      if @movie.update(movie_params)
-        format.html { redirect_to @movie, notice: 'Movie was successfully updated.' }
-        format.json { render :show, status: :ok, location: @movie }
-      else
-        format.html { render :edit }
-        format.json { render json: @movie.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /movies/1
-  # DELETE /movies/1.json
-  def destroy
-    @movie.destroy
-    respond_to do |format|
-      format.html { redirect_to movies_url, notice: 'Movie was successfully destroyed.' }
-      format.json { head :no_content }
-    end
-  end
 
   def add_to_fav
     if current_user
-      puts params[:movid]
       #Check if the movie is already in the database
       remote_movie=Tmdb::Movie.detail(params[:movid])
       if remote_movie.poster_path
-        @poster =@configuration.base_url+'w154'+remote_movie.poster_path
+        @poster = @configuration.base_url+'w154'+remote_movie.poster_path
       else
-        @poster="Notfound"
+        @poster = "Notfound"
       end  
       @movie = Movie.where({
         :id => remote_movie.id, 
@@ -96,7 +48,7 @@ class MoviesController < ApplicationController
           movie.favorit = true
           movie.save
           respond_to do |format|
-            format.html { redirect_to :back, notice: 'The movie has been successfully added to your list.' }
+            format.html { redirect_to @movie, notice: 'The movie has been successfully added to your list.' }
             format.json { head :no_content }    
           end  
         end
@@ -124,6 +76,53 @@ class MoviesController < ApplicationController
     end
   end
 
+  def add_to
+    if current_user
+      remote_movie = Tmdb::Movie.detail(params[:movid]) 
+      if remote_movie.poster_path
+        @poster = @configuration.base_url+'w154'+remote_movie.poster_path
+      else
+        @poster = "Notfound"
+      end  
+      @movie = Movie.where({
+        :id => remote_movie.id, 
+        :nom => remote_movie.title,
+        :affiche => @poster,
+        :description => remote_movie.overview 
+      }).first_or_create  
+      if not current_user.movies.include? @movie
+        current_user.movies << @movie
+      end
+      @movies = UsersMovie.where({:movie_id => @movie.id, :user_id => current_user.id}) 
+      case params[:action_type]
+        when 'favorite'
+          @movies.each do |movie|
+            if movie.favorit == false || movie.favorit == nil
+              movie.favorit = true
+              movie.save
+            end
+          end
+        when 'seen'
+          @movies.each do |movie|
+            if movie.seen == false || movie.seen == nil
+              movie.seen = true
+              movie.save
+            end
+          end
+        when 'see'
+          @movies.each do |movie|
+            if movie.to_see == false || movie.to_see == nil
+              movie.to_see = true
+              movie.save
+            end
+          end
+      end
+      respond_to do |format|
+              format.html { redirect_to :back, notice: 'The movie has been successfully added to your list.' }
+              format.json { head :no_content }    
+      end
+    end
+  end
   def get_to_fav
     if current_user
       @movies = []
@@ -136,37 +135,7 @@ class MoviesController < ApplicationController
     end
   end
 
-  def add_to_seen
-    if current_user
-       remote_movie=Tmdb::Movie.detail(params[:movid]) 
-      if remote_movie.poster_path
-        @poster =@configuration.base_url+'w154'+remote_movie.poster_path
-      else
-        @poster="Notfound"
-      end  
-      @movie = Movie.where({
-        :id => remote_movie.id, 
-        :nom => remote_movie.title,
-        :affiche => @poster,
-        :description => remote_movie.overview 
-        }).first_or_create  
-      if not current_user.movies.include? @movie
-        current_user.movies << @movie
-      end
-      @movies = UsersMovie.where({:movie_id => @movie.id, :user_id => current_user.id})
-      @movies.each do |movie|
-        if movie.seen == false || movie.seen == nil
-          movie.seen = true
-          movie.save
-          respond_to do |format|
-            format.html { redirect_to :back, notice: 'The movie has been successfully added to your list.' }
-            format.json { head :no_content }    
-          end  
-        end
-      end
-    end
-  end
-
+ 
   def remove_from_seen
     if current_user
       #Check if the movie is already in the database
@@ -194,37 +163,6 @@ class MoviesController < ApplicationController
       seen_movies.each do |movie|
         if movie.seen == true
           @movies << Movie.find(movie.movie_id)
-        end
-      end
-    end
-  end
-
-def add_to_see
-    if current_user
-      remote_movie=Tmdb::Movie.detail(params[:movid])
-      if remote_movie.poster_path
-        @poster =@configuration.base_url+'w154'+remote_movie.poster_path
-      else
-        @poster="Notfound"
-      end  
-      @movie = Movie.where({
-        :id => remote_movie.id, 
-        :nom => remote_movie.title,
-        :affiche => @poster,
-        :description => remote_movie.overview 
-        }).first_or_create   
-      if not current_user.movies.include? @movie
-        current_user.movies << @movie
-      end
-      @movies = UsersMovie.where({:movie_id => @movie.id, :user_id => current_user.id})
-      @movies.each do |movie|
-        if movie.to_see == false || movie.to_see == nil
-          movie.to_see = true
-          movie.save
-          respond_to do |format|
-            format.html { redirect_to :back, notice: 'The movie has been successfully added to your list.' }
-            format.json { head :no_content }    
-          end  
         end
       end
     end
