@@ -5,7 +5,7 @@ class MoviesController < ApplicationController
   # GET /movies.json
   def index
     @movies = Movie.all
-    @topMovies = Tmdb::Movie.upcoming
+    @top_movies = Tmdb::Movie.upcoming
   end
 
  def search
@@ -127,8 +127,8 @@ class MoviesController < ApplicationController
   def get_fav_list
     if current_user
       @movies = []
-      favoritMovie=UsersMovie.where(:user_id => current_user)
-      favoritMovie.each do |movie|
+      favorit_movie=UsersMovie.where(:user_id => current_user)
+      favorit_movie.each do |movie|
         if movie.favorit == true
            @movies << Movie.find(movie.movie_id)
         end
@@ -190,8 +190,8 @@ class MoviesController < ApplicationController
   def get_seen_list
     if current_user
       @movies = []
-      seenList=UsersMovie.where(:user_id => current_user)
-      seenList.each do |movie|
+      seen_movies=UsersMovie.where(:user_id => current_user)
+      seen_movies.each do |movie|
         if movie.seen == true
           @movies << Movie.find(movie.movie_id)
         end
@@ -253,8 +253,8 @@ def add_to_see
   def get_to_see_list
     if current_user
       @movies = []
-      seenList=UsersMovie.where(:user_id => current_user)
-      seenList.each do |movie|
+      see_movies=UsersMovie.where(:user_id => current_user)
+      see_movies.each do |movie|
         if movie.to_see == true
           @movies << Movie.find(movie.movie_id)
         end

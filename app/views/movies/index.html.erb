@@ -1,6 +1,6 @@
 <h1>Listing New movies</h1>
 <table>
-    <% @topMovies.each do |movie| %>
+    <% @top_movies.each do |movie| %>
         <%@lien="/show/"
         @lien+=movie.id.to_s%>
         <tr>
@@ -15,8 +15,8 @@
                 <%=movie.title%>
             </td>
             <td>
-            Note :
-                <%=movie.vote_average%>
+            Rate :
+            <%=movie.vote_average%>
             </td>
             <td>
                  <% if not @favorit.include? movie.id%> 

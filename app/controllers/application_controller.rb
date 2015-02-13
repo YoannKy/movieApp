@@ -13,8 +13,8 @@ class ApplicationController < ActionController::Base
   		@favorit=[]
   		@seen=[]
       @to_see=[]
-  		moviesCheck=UsersMovie.where(:user_id => current_user)
-  		moviesCheck.each do |movie|
+  		movies_check=UsersMovie.where(:user_id => current_user)
+  		movies_check.each do |movie|
   			if movie.favorit == true
   				@favorit << movie.movie_id
   			end 	

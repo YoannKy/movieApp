@@ -2,7 +2,6 @@ source 'https://rubygems.org'
 gem 'themoviedb'
 #bootstrap
 gem 'bootstrap-sass', '~> 3.3.1'
-gem 'bootstrap-material-design'
 #prefixes vendor
 gem 'autoprefixer-rails'
 #movie api
