@@ -3,73 +3,72 @@
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= stylesheet_link_tag    'public',  media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link href="css-sprite/sprite-av-black.css" rel="stylesheet">
   <%= csrf_meta_tags %>
 </head>
 <body>
 <% if user_signed_in? %>
 <div class="navbar navbar-default navbar-material-teal">  
   <div class="navbar-header">
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-    </button>
-    <%= link_to "MovieApp", movies_path, :class => "navbar-brand"%>
-  </div>
-  <div class="navbar-collapse collapse navbar-responsive-collapse">
-    <ul class="nav navbar-nav">
-      <li class="active">
-        <%=link_to "My Lovely movies", get_fav_list_path(current_user.id), method: :get%>
-      </li>
-      <li class="active">
-        <%=link_to "My Seen movies", get_seen_list_path(current_user.id), method: :get%>
-      </li>
-      <li class="active">
-        <%=link_to "My to See movies", get_tosee_list_path(current_user.id), method: :get%>
-      </li>
-    </ul>
-          <%= form_tag("/search", method: "get", :class => "navbar-form navbar-left") do %>
-          <%= text_field_tag(:name_movie, "Search",class: "form-control") %>
-          <% end %>
-    <ul class="nav navbar-nav navbar-right">
-      <li class="active">
-        <%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %>
-      </li>
-      <li>  
-        <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
-      </li>
-      <li>Logged in as <strong><%= current_user.email %></strong>
-      </li>
-    </ul>
-  </div>
-</div>
-<% else %>
-<div class="navbar navbar-default">
-    <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
         </button>
         <%= link_to "MovieApp", movies_path, :class => "navbar-brand"%>
-    </div>
-    <div class="navbar-collapse collapse navbar-responsive-collapse">
-        <ul class="nav navbar-nav navbar-right">
-            <li><%= link_to "Sign up", new_user_registration_path, :class => 'navbar-link'  %></li>
-            <li><%= link_to "Login", new_user_session_path, :class => 'navbar-link'  %></li>
+      </div>
+      <div class="navbar-collapse collapse navbar-responsive-collapse">
+        <ul class="nav navbar-nav">
+          <li class="active">
+            <%=link_to "My Lovely movies", get_fav_list_path(current_user.id), method: :get%>
+          </li>
+          <li class="active">
+            <%=link_to "My Seen movies", get_seen_list_path(current_user.id), method: :get%>
+          </li>
+          <li class="active">
+            <%=link_to "My to See movies", get_to_see_list_path(current_user.id), method: :get%>
+          </li>
         </ul>
+              <%= form_tag("/search", method: "get", :class => "navbar-form navbar-left") do %>
+              <%= text_field_tag(:movie_name, "Search",class: "form-control") %>
+              <%= submit_tag("Search") %>
+              <% end %>
+        <ul class="nav navbar-nav navbar-right">
+          <li class="active">
+            <%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %>
+          </li>
+          <li>  
+            <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
+          </li>
+        </ul>
+      </div>
     </div>
-</div>
-
-<% end %>
-<% if notice %>
-  <p class="alert alert-success"><%= notice %></p>
-<% end %>
-<% if alert %>
-  <p class="alert alert-danger"><%= alert %></p>
-<% end %>
-
-<%= yield %>
-
-</body>
+    Logged in as <strong><%= current_user.email %></strong>
+    <% else %>
+    <div class="navbar navbar-default">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <%= link_to "MovieApp", movies_path, :class => "navbar-brand"%>
+        </div>
+        <div class="navbar-collapse collapse navbar-responsive-collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><%= link_to "Sign up", new_user_registration_path, :class => 'navbar-link'  %></li>
+                <li><%= link_to "Login", new_user_session_path, :class => 'navbar-link'  %></li>
+            </ul>
+        </div>
+    </div>
+    <% end %>
+    <% if notice %>
+      <p class="alert alert-success"><%= notice %></p>
+    <% end %>
+    <% if alert %>
+      <p class="alert alert-danger"><%= alert %></p>
+    <% end %>
+    <%= yield %>
+  </body>
 </html>

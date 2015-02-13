@@ -5,11 +5,11 @@ class MoviesController < ApplicationController
   # GET /movies.json
   def index
     @movies = Movie.all
-    @topMovies =Tmdb::Movie.upcoming
+    @topMovies = Tmdb::Movie.upcoming
   end
 
  def search
-	@movies = Movie.search(params[:name_movie])
+	@movies = Movie.search(params[:movie_name])
  end
 
   # GET /movies/1
@@ -70,15 +70,21 @@ class MoviesController < ApplicationController
     end
   end
 
-  def addToFav
+  def add_to_fav
     if current_user
+      puts params[:movid]
       #Check if the movie is already in the database
-      remoteMovie=Tmdb::Movie.detail(params[:id]) 
+      remote_movie=Tmdb::Movie.detail(params[:movid])
+      if remote_movie.poster_path
+        @poster =@configuration.base_url+'w154'+remote_movie.poster_path
+      else
+        @poster="Notfound"
+      end  
       @movie = Movie.where({
-        :id => remoteMovie.id, 
-        :nom => remoteMovie.title,
-        :affiche => @configuration.base_url+'w154'+remoteMovie.poster_path,
-        :description => remoteMovie.overview 
+        :id => remote_movie.id, 
+        :nom => remote_movie.title,
+        :affiche => @poster,
+        :description => remote_movie.overview 
         }).first_or_create
       # si le lien user et movie inclu le film?  
       if not current_user.movies.include? @movie
@@ -98,10 +104,10 @@ class MoviesController < ApplicationController
     end
   end
 
-  def removeFromFav
+  def remove_from_fav
     if current_user
       #Check if the movie is already in the database
-      @movie = UsersMovie.where({:movie_id =>params[:id], :user_id => current_user})
+      @movie = UsersMovie.where({:movie_id =>params[:movid],:user_id => current_user.id})
       @movie.each do |movie|
         if movie.favorit == true
           movie.favorit = false
@@ -118,7 +124,7 @@ class MoviesController < ApplicationController
     end
   end
 
-  def getFavList
+  def get_fav_list
     if current_user
       @movies = []
       favoritMovie=UsersMovie.where(:user_id => current_user)
@@ -130,15 +136,20 @@ class MoviesController < ApplicationController
     end
   end
 
-  def addToSeen
+  def add_to_seen
     if current_user
-      remoteMovie=Tmdb::Movie.detail(params[:id]) 
+       remote_movie=Tmdb::Movie.detail(params[:movid]) 
+      if remote_movie.poster_path
+        @poster =@configuration.base_url+'w154'+remote_movie.poster_path
+      else
+        @poster="Notfound"
+      end  
       @movie = Movie.where({
-        :id => remoteMovie.id, 
-        :nom => remoteMovie.title,
-        :affiche => @configuration.base_url+'w154'+remoteMovie.poster_path,
-        :description => remoteMovie.overview 
-        }).first_or_create   
+        :id => remote_movie.id, 
+        :nom => remote_movie.title,
+        :affiche => @poster,
+        :description => remote_movie.overview 
+        }).first_or_create  
       if not current_user.movies.include? @movie
         current_user.movies << @movie
       end
@@ -156,10 +167,10 @@ class MoviesController < ApplicationController
     end
   end
 
-  def removeFromSeen
+  def remove_from_seen
     if current_user
       #Check if the movie is already in the database
-      @movie = UsersMovie.where({:movie_id =>params[:id], :user_id => current_user.id})
+      @movie = UsersMovie.where({:movie_id =>params[:movid], :user_id => current_user.id})
       @movie.each do |movie|
         if movie.seen == true
           movie.seen = false
@@ -176,7 +187,7 @@ class MoviesController < ApplicationController
     end
   end
 
-  def getSeenList
+  def get_seen_list
     if current_user
       @movies = []
       seenList=UsersMovie.where(:user_id => current_user)
@@ -188,14 +199,19 @@ class MoviesController < ApplicationController
     end
   end
 
-def addTo_to_see
+def add_to_see
     if current_user
-      remoteMovie=Tmdb::Movie.detail(params[:id]) 
+      remote_movie=Tmdb::Movie.detail(params[:movid])
+      if remote_movie.poster_path
+        @poster =@configuration.base_url+'w154'+remote_movie.poster_path
+      else
+        @poster="Notfound"
+      end  
       @movie = Movie.where({
-        :id => remoteMovie.id, 
-        :nom => remoteMovie.title,
-        :affiche => @configuration.base_url+'w154'+remoteMovie.poster_path,
-        :description => remoteMovie.overview 
+        :id => remote_movie.id, 
+        :nom => remote_movie.title,
+        :affiche => @poster,
+        :description => remote_movie.overview 
         }).first_or_create   
       if not current_user.movies.include? @movie
         current_user.movies << @movie
@@ -214,10 +230,10 @@ def addTo_to_see
     end
   end
 
-  def removeFrom_to_see
+  def remove_from_to_see
     if current_user
       #Check if the movie is already in the database
-      @movie = UsersMovie.where({:movie_id =>params[:id], :user_id => current_user.id})
+      @movie = UsersMovie.where({:movie_id =>params[:movid], :user_id => current_user.id})
       @movie.each do |movie|
         if movie.to_see == true
           movie.to_see = false
@@ -234,7 +250,7 @@ def addTo_to_see
     end
   end
 
-  def getToSeeList
+  def get_to_see_list
     if current_user
       @movies = []
       seenList=UsersMovie.where(:user_id => current_user)
