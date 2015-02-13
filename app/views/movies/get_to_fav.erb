@@ -17,8 +17,16 @@
                 link_to image_tag("http://www.atmos.washington.edu/~carey/images/notFound.png", :width =>154, :Height=>212), @lien 
                 end%>
             </td>
-            <td>
+            <td class="name_movie">
                 <%=movie.nom%>
+            </td>
+            <td>
+                <%=form_tag :controller => 'movies', :action => 'remove_from_fav' do%>
+                    <%=hidden_field_tag :movid, movie.id%>
+                    <%= button_tag(:type => 'submit', :class => 'btn btn-danger') do %>
+                        <i class="glyphicon glyphicon-heart"></i>
+                    <% end %>
+                <%end%>  
             </td>
             <td>
                 <% if not @seen.include? movie.id%> 
@@ -49,20 +57,13 @@
                 <%end%>
             </td>
             <td>
-                <%=form_tag :controller => 'movies', :action => 'remove_from_fav' do%>
-                    <%=hidden_field_tag :movid, movie.id%>
-                    <%= button_tag(:type => 'submit', :class => 'btn btn-danger') do %>
-                        <i class="glyphicon glyphicon-heart"></i>
-                    <% end %>
-                <%end%>  
-            </td>
-            <td>
                 <%=movie.description%>
             </td>
         </tr>
     <%end%>
     </table>
 <%end%>
+</br>
 <%=link_to :back, class:"btn btn-default" do %>
     <i class="glyphicon glyphicon-arrow-left"></i>
 <% end %>

@@ -6,10 +6,10 @@ form
 	display: inline;
 }
 td
-{
-	padding-bottom : 5px !important;
-	padding-top : 5px !important;
-	max-width:300px !important;
+{	padding-bottom: 5px !important;
+	padding-right : 10px !important;
+	padding-left : 10px !important;
+	max-width:320px !important;
 }
 
 .centered-table
@@ -20,4 +20,9 @@ td
 body
 {
 	background-color: #e0e0e0;
+}
+
+td.name_movie
+{
+	max-width:50px !important;
 }
