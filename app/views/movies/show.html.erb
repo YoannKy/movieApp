@@ -9,7 +9,9 @@ Date : <%=Date.parse(@movie.release_date).strftime("%d/%m/%Y")%></br>
 		<%@trailers.youtube.each do |movie| %>
 			<%@lien="//www.youtube.com/embed/"%>
 			<%@lien+=movie.source.to_s%>
-			<iframe src=<%=@lien%> width="640" height="385" frameborder="0" allowfullscreen="allowfullscreen"></iframe></br>
+            <div class="embed-responsive embed-responsive-16by9">
+    			<iframe src=<%=@lien%> class="embed-responsive-item" width="640" height="385" frameborder="0" allowfullscreen="allowfullscreen"></iframe></br>
+            </div>
 		<%end%>
 	<%end%>
 	<% if not @favorit.include? @movie.id%> 
@@ -21,7 +23,7 @@ Date : <%=Date.parse(@movie.release_date).strftime("%d/%m/%Y")%></br>
     	<%end%>
 
     <%else%>
-        <%= button_tag(type: 'button', :class => 'btnbtn btn-form-disabled  btn-success') do %>
+        <%= button_tag(type: 'button', :class => 'btn disabled  btn-success') do %>
         <i class="glyphicon glyphicon-heart"></i>
         <% end %>
     <%end%>
@@ -33,7 +35,7 @@ Date : <%=Date.parse(@movie.release_date).strftime("%d/%m/%Y")%></br>
             <% end %>
         <%end%>  
     <%else%>  
-        <%= button_tag(type: 'button', :class => 'btn btn btn-form-disabled btn-success') do %>
+        <%= button_tag(type: 'button', :class => 'btn disabled btn-success') do %>
         <i class="glyphicon glyphicon-eye-open"></i>
         <% end %>
     <%end%>
@@ -45,7 +47,7 @@ Date : <%=Date.parse(@movie.release_date).strftime("%d/%m/%Y")%></br>
             <% end %>
         <%end%>  
     <%else%>  
-        <%= button_tag(type: 'button', :class => 'btn btn btn-form-disabled btn-success') do %>
+        <%= button_tag(type: 'button', :class => 'btn disabled btn-success') do %>
         <i class="glyphicon glyphicon-film"></i>
         <% end %>
     <%end%>
