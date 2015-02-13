@@ -22,8 +22,9 @@
                 <%=movie.nom%>
             </td>
             <td>
-                <%=form_tag :controller => 'movies', :action => 'remove_from_fav' do%>
+                <%=form_tag :controller => 'movies', :action => 'remove_from' do%>
                     <%=hidden_field_tag :movid, movie.id%>
+                    <%=hidden_field_tag :action_type, 'favorite'%>
                     <%= button_tag(:type => 'submit', :class => 'btn btn-danger') do %>
                         <i class="glyphicon glyphicon-heart"></i>
                     <% end %>

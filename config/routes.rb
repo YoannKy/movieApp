@@ -6,9 +6,7 @@ get '/' =>'movies#index'
 get '/show/:id' => 'movies#show'
 match '/search' => 'movies#search', :via => :get, :as => :search
 post '/add_to',:to  => 'movies#add_to',as: 'add_to'
-post '/remove_from_fav',:to  => 'movies#remove_from_fav',as: 'remove_from_fav'
-post '/remove_from_seen',:to  => 'movies#remove_from_seen',as: 'remove_from_seen'
-post '/remove_from_to_see', :to  => 'movies#remove_from_to_see',as: 'remove_from_to_see'
+post '/remove_from',:to  => 'movies#remove_from',as: 'remove_from'
 match '/get_to_fav/:id' => 'movies#get_to_fav', :via => :get, :as => :get_to_fav
 match '/get_to_seen/:id' => 'movies#get_to_seen', :via => :get, :as => :get_to_seen
 match '/get_to_see/:id' => 'movies#get_to_see', :via => :get, :as => :get_to_see

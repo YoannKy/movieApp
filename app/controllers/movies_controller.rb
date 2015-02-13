@@ -123,6 +123,50 @@ class MoviesController < ApplicationController
       end
     end
   end
+
+  def remove_from
+    if current_user
+      #Check if the movie is already in the database
+      @movie = UsersMovie.where({:movie_id =>params[:movid], :user_id => current_user.id})
+      case params[:action_type]
+      when 'favorite'
+        @movie.each do |movie|
+        if movie.favorit == true
+          movie.favorit = false
+          movie.save
+          if movie.to_see == false and movie.favorit == false and movie.seen == false
+            movie.delete
+          end  
+        end  
+      end
+      when 'seen'
+        @movie.each do |movie|
+          if movie.seen == true
+            movie.seen = false
+            movie.save
+            if movie.to_see == false and movie.favorit == false and movie.seen == false
+              movie.delete
+            end  
+          end  
+        end
+      when 'see'  
+        @movie.each do |movie|
+          if movie.to_see == true
+            movie.to_see = false
+            movie.save
+            if movie.to_see == false and movie.favorit == false and movie.seen == false
+              movie.delete
+            end  
+          end  
+        end
+      end
+      respond_to do |format|
+        format.html { redirect_to :back, notice: 'The movie has been successfully removed from your list.' }
+        format.json { head :no_content }  
+      end
+    end
+  end
+
   def get_to_fav
     if current_user
       @movies = []
@@ -135,27 +179,6 @@ class MoviesController < ApplicationController
     end
   end
 
- 
-  def remove_from_seen
-    if current_user
-      #Check if the movie is already in the database
-      @movie = UsersMovie.where({:movie_id =>params[:movid], :user_id => current_user.id})
-      @movie.each do |movie|
-        if movie.seen == true
-          movie.seen = false
-          movie.save
-          if movie.to_see == false and movie.favorit == false and movie.seen == false
-            movie.delete
-          end  
-        end  
-      end
-      respond_to do |format|
-        format.html { redirect_to :back, notice: 'The movie has been successfully removed from your list.' }
-        format.json { head :no_content }  
-      end
-    end
-  end
-
   def get_to_seen
     if current_user
       @movies = []
@@ -164,26 +187,6 @@ class MoviesController < ApplicationController
         if movie.seen == true
           @movies << Movie.find(movie.movie_id)
         end
-      end
-    end
-  end
-
-  def remove_from_to_see
-    if current_user
-      #Check if the movie is already in the database
-      @movie = UsersMovie.where({:movie_id =>params[:movid], :user_id => current_user.id})
-      @movie.each do |movie|
-        if movie.to_see == true
-          movie.to_see = false
-          movie.save
-          if movie.to_see == false and movie.favorit == false and movie.seen == false
-            movie.delete
-          end  
-        end  
-      end
-      respond_to do |format|
-        format.html { redirect_to :back, notice: 'The movie has been successfully removed from your list.' }
-        format.json { head :no_content }  
       end
     end
   end
